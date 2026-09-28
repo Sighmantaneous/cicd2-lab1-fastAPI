@@ -1,9 +1,9 @@
 import pytest
 from fastapi.testclient import TestClient
 
-from app.main import apps, users 
+from app.main import app, users 
 
-@pytest.fixtures(autouse=True)
+@pytest.fixture(autouse=True)
 def clear_users():
     users.clear()
 
