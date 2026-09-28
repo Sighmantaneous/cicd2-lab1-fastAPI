@@ -1,22 +1,16 @@
-# CICD-2 FastAPI Lab Template
+# CICD-2 FastAPI Lab 1
 
-This repository contains a FastAPI lab for the CICD-2 module.  
-Use this `README.md` as the standard structure for future labs.
+This repository contains a FastAPI lab 1
 
 ---
 
 ## Lab Title
 
-**Replace this with the lab title**
+**Lab 1 — Creating a Basic FastAPI Application**
 
-Example:
-
-> Lab 1 — Creating a Basic FastAPI Application
 
 ---
 ## Repository Structure
-
-Use the following structure for the labs:
 
 ```text
 project-name/
