@@ -1,4 +1,3 @@
-
 import pytest
 
 def user_payload(
@@ -13,7 +12,6 @@ def user_payload(
         "age" : age,
         "student_id" : student_id
     }
-
 
 def test_create_user_returns_201(client):
     response = client.post("api/users", json=user_payload())
@@ -56,14 +54,11 @@ def test_get_users_returns_created_users(client):
     assert data[0]["name"] == "Alice"
 
 def test_get_existing_user_returns_200(client): 
-   client.post("/api/users", json=user_payload()) 
-
-    #user_id = client.json()["id"]
-
-    response = client.get(f"/api/users{user_id}")
- 
+    created =client.post("/api/users", json=user_payload()).json()
+    user_id = created["id"]
+    response = client.get(f"/api/users/{user_id}") 
     assert response.status_code == 200 
-    assert response.json()["user_id"] ==1    
+    assert response.json()["id"] == 1    
 
 def test_get_missing_user_returns_404(client): 
     response = client.get("/api/users/999") 
@@ -73,21 +68,21 @@ def test_get_missing_user_returns_404(client):
 
 
 def test_delete_existing_user_returns_204(client):
-    client.post("/api/users", json=user_payload(uid=20))
-
-    response = client.delete("/api/users/20")
-
+    created =client.post("/api/users", json=user_payload()).json()
+    user_id = created["id"]
+    response = client.delete(f"/api/users/{user_id}")
     assert response.status_code == 204
     assert response.content == b''
 
 def test_delete_missing_user_returns_404(client):
-    response = client.delete("api/users/")
+    response = client.delete("api/users/999")
 
     assert response.status_code == 404
     assert response.json()["detail"] == "User not found"
 
 def test_deleted_user_can_no_longer_be_retrieved(client): 
-    client.post("/api/users", json=user_payload()) 
-    client.delete("/api/users/{user_id}") 
-    response = client.get("/api/users/{user_id}") 
+    created = client.post("/api/users", json=user_payload()).json() 
+    user_id = created["id"]
+    client.delete(f"/api/users/{user_id}") 
+    response = client.get(f"/api/users/{user_id}") 
     assert response.status_code == 404
